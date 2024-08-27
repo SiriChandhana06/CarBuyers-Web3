@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { initializeContract, getItemDetails } from '../Integration';
+import { ethers } from 'ethers';
 
 const CarCard = ({ carData }) => {
   const [provider, setProvider] = useState(null);
@@ -50,6 +51,11 @@ const CarCard = ({ carData }) => {
 
   if (!data) return <div>Loading...</div>;
 
+  const priceInWei = data[3]; 
+  const priceInEther = ethers.utils.formatUnits(priceInWei, 'wei');
+  
+  const year = data.year ? data.year.toNumber() : data[1].toString() ;
+
   return (
     <div className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg max-w-sm mx-auto">
       <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
@@ -65,13 +71,13 @@ const CarCard = ({ carData }) => {
           <span className="font-medium text-gray-600">Company:</span> {data[0]}
         </div>
         <div>
-          <span className="font-medium text-gray-600">Price:</span> ${data[1]}
+          <span className="font-medium text-gray-600">Price:</span> {priceInEther} <strong>Wei</strong>
         </div>
         <div>
           <span className="font-medium text-gray-600">Model:</span> {data[2]}
         </div>
         <div>
-          <span className="font-medium text-gray-600">Year:</span> {data.year}
+          <span className="font-medium text-gray-600">Year:</span> {year}
         </div>
       </div>
     </div>
