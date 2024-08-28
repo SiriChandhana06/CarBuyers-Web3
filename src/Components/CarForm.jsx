@@ -22,7 +22,7 @@ const CarForm = () => {
     price: '',
     model: '',
     year: '',
-    image: '', 
+    image: '',
   });
 
   useEffect(() => {
@@ -108,14 +108,14 @@ const CarForm = () => {
       console.log("IPFS Hash:", tokenURI);
 
       const title = formData.title.trim();
-    const year = Number(formData.year);
-    const model = formData.model.trim();
-    const price = ethers.utils.parseUnits(formData.price, 'ether');  // Convert price to BigNumber format if needed
-    const image = formData.image;
+      const year = Number(formData.year);
+      const model = formData.model.trim();
+      const price = ethers.utils.parseUnits(formData.price, 'ether');  
+      const image = formData.image;
 
-    if (!title || isNaN(year) || !model || !price || !image) {
-      throw new Error('Invalid input values');
-    }
+      if (!title || isNaN(year) || !model || !price || !image) {
+        throw new Error('Invalid input values');
+      }
 
       // Log the form data with the IPFS hash
       console.log("Form Data:", {
