@@ -49,20 +49,25 @@ const CarCard = ({ carData }) => {
     }
   };
 
-  if (!data) return <div>Loading...</div>;
-
-  const priceInWei = data[3]; 
-  const priceInEther = ethers.utils.formatUnits(priceInWei, 'wei');
+  if (!data) return (
+    <div className='backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg '>
+      Loading
+    </div>
+  )
   
-  const year = data.year ? data.year.toNumber() : data[1].toString() ;
+
+  const priceInWei = data[3];
+  const priceInEther = ethers.utils.formatEther(priceInWei);
+
+  const year = data.year ? data.year.toNumber() : data[1].toNumber();
 
   return (
     <div className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg max-w-sm mx-auto">
       <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
       <div className="mb-4">
         <img
-          src={data[4] || 'https://via.placeholder.com/150'}
-          alt="Car"
+          src="https://gateway.pinata.cloud/ipfs/QmVZxY9ZEFFxkiAvKJqrULNkt3Cyf2NRbzbKxBY9QMmAt2"
+          alt={data[0]}
           className="w-full h-48 object-cover rounded-md mb-4"
         />
       </div>
@@ -71,7 +76,7 @@ const CarCard = ({ carData }) => {
           <span className="font-medium text-gray-600">Company:</span> {data[0]}
         </div>
         <div>
-          <span className="font-medium text-gray-600">Price:</span> {priceInEther} <strong>Wei</strong>
+          <span className="font-medium text-gray-600">Price:</span> {priceInEther} <strong>ETH</strong>
         </div>
         <div>
           <span className="font-medium text-gray-600">Model:</span> {data[2]}

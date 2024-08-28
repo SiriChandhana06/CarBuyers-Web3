@@ -92,7 +92,6 @@ const CarForm = () => {
 
       // Notify the user
       toast.success("Image uploaded to Pinata successfully!");
-
       return tokenURI;
     } catch (error) {
       toast.error("Error uploading image to Pinata!");
@@ -123,8 +122,6 @@ const CarForm = () => {
         ...formData,
         image: tokenURI,
       });
-
-
       await setItemDetails(contract, title, year, model, price, image);
       console.log('Details submitted successfully.');
     } catch (error) {
@@ -175,6 +172,7 @@ const CarForm = () => {
               required
             />
           </div>
+
 
           <div>
             <label className="block text-sm font-medium text-white">Year</label>
