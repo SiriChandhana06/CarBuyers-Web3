@@ -7,7 +7,7 @@ export async function initializeContract() {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
             const address = await signer.getAddress();
-            const myContractAddress = "0xA171a0C64C0AF50F33b7952603aFE7764EC8EB01";
+            const myContractAddress = "0x909499f495bF9cBC6265482AF978A10504aB0603";
             const contract = new ethers.Contract(
                 myContractAddress,
                 Abi,
@@ -26,12 +26,13 @@ export async function initializeContract() {
 
 
 export async function setItemDetails(contract, title,year,model,price,image) {
-    const submitTx = await contract.setItemDetails( title,year,model,price,image, { gasLimit: 100000 });
+    const submitTx = await contract.setItemDetails( title,year,model,price,image, { gasLimit: 300000 });
     await submitTx.wait();
   }
 
 
-  export async function getItemDetails(contract) {
-    const carDetails = await contract.getItemDetails();
-    return carDetails;
+  export async function getAllItems(contract) {
+    const items = await contract.getAllItems();
+    return items;
 }
+
