@@ -73,7 +73,7 @@ const CarCard = () => {
 
   return (
     <div>
-      <div className="mb-6 flex justify-center">
+      <div className="mb-6 flex justify-center overflow-x-hidden">
   <div className="relative w-80">
     <input
       type="text"
