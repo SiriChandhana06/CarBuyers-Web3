@@ -38,6 +38,7 @@ const CarCard = () => {
       setData(records);
       setFilteredData(records); // Initially, set filtered data to all items
       console.log('All Items Data:', records);
+      const fileurl = 'https://gateway.pinata.cloud/ipfs/';
     } catch (error) {
       console.error('Error getting all items data:', error);
     }
@@ -80,7 +81,7 @@ const CarCard = () => {
       value={searchQuery}
       onChange={handleSearch}
       placeholder="Search Here"
-      className="px-4 py-2 pl-12 border border-white/30 backdrop-blur-md bg-white/30 text-black placeholder:text-black rounded-full shadow-sm w-full"
+      className="px-4 py-2 pl-12 border border-white/30 backdrop-blur-md bg-white/30 text-black placeholder:text-black rounded-full shadow-sm w-64 md:w-full"
     />
     <div className="absolute inset-y-0 left-4 flex items-center">
       <svg
@@ -99,12 +100,12 @@ const CarCard = () => {
       {filteredData.length === 0 ? (
         <div className="text-center text-gray-500">No results found</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px] " id='hide-scrollbar'>
           {filteredData.map((item, index) => {
             const priceInEther = ethers.utils.formatEther(item.price);
             const year = item.year ? item.year.toNumber() : item[1].toNumber();
             return (
-              <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg max-w-sm mx-auto">
+              <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
                 <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
                 <div className="mb-4">
                   <img
@@ -114,17 +115,17 @@ const CarCard = () => {
                   />
                 </div>
                 <div className="space-y-2">
-                  <div>
-                    <span className="font-medium text-gray-600">Company:</span> {item.title}
+                  <div className='font-semibold'>
+                    <span className="font-medium text-white/70 md:text-gray-600">Company:</span> {item.title}
                   </div>
-                  <div>
-                    <span className="font-medium text-gray-600">Model:</span> {item.model}
+                  <div className='font-semibold'>
+                    <span className="font-medium text-white/70 md:text-gray-600">Model:</span> {item.model}
                   </div>
-                  <div>
-                    <span className="font-medium text-gray-600">Year:</span> {year}
+                  <div className='font-semibold'>
+                    <span className="font-medium text-white/70 md:text-gray-600">Year:</span> {year}
                   </div>
-                  <div>
-                    <span className="font-medium text-gray-600">Price:</span> {priceInEther} ETH
+                  <div className='font-semibold'>
+                    <span className="font-medium text-white/70 md:text-gray-600">Price:</span> {priceInEther} ETH
                   </div>
                 </div>
               </div>

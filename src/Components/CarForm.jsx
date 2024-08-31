@@ -61,9 +61,9 @@ const CarForm = () => {
       formDataToUpload.append('file', formData.image);
 
       // Pinata API credentials (Use your own API key and secret)
-      const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyMjczNWZmOS04OTQ5LTRmMjQtYjhlZi01NjNiYTdhNWMwNWMiLCJlbWFpbCI6InNpcmlzaXJpMzAwNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYTQ1YTBlMmEwODE4NmZmZTg4NTQiLCJzY29wZWRLZXlTZWNyZXQiOiIxOTQ4ODgwM2M4MjY3YjhmY2Q0ZWU2YmVjMmJiMjJiMWY5YTJmNTU4YzQ2MzVmODhkYjk0MDhlYTE2NzA5YjljIiwiZXhwIjoxNzU2MTg5ODA2fQ.VO4iwUm49W6fsn-DC4dG42BlGro5hrgc3Ohh3Kr7i7M';
-
+      const jwt = import.meta.env.jwt_key
       // Upload the image to Pinata
+
       const imageUploadResponse = await axios.post(
         'https://api.pinata.cloud/pinning/pinFileToIPFS',
         formDataToUpload,
@@ -127,47 +127,54 @@ const CarForm = () => {
     } catch (error) {
       console.error('Error submitting details:', error);
     }
+    
+    setFormData({
+      title: '',
+      price: '',
+      model: '',
+      year: '',
+    });
   };
 
   return (
     <div>
       <div className="backdrop-blur-md bg-white/30 p-10 border border-white/30 rounded-lg shadow-lg max-w-lg w-full">
-        <h2 className="text-2xl font-bold text-center mb-6 text-white">Product Details</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-black md:text-white">Product Details</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-white">Company Name</label>
+            <label className="block text-sm font-medium text-black md:text-white">Company Name</label>
             <input
               type="text"
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-white"
+              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-black md:text-white placeholder-black md:placeholder-white"
               placeholder="Enter company name"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white">Price</label>
+            <label className="block text-sm font-medium text-black md:text-white">Price</label>
             <input
               type="number"
               name="price"
               value={formData.price}
               onChange={handleChange}
-              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-white"
+              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500  text-black md:text-white placeholder-black md:placeholder-white"
               placeholder="Enter price"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white">Model</label>
+            <label className="block text-sm font-medium text-black md:text-white">Model</label>
             <input
               type="text"
               name="model"
               value={formData.model}
               onChange={handleChange}
-              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-white"
+              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500  text-black md:text-white placeholder-black md:placeholder-white"
               placeholder="Enter model"
               required
             />
@@ -175,25 +182,25 @@ const CarForm = () => {
 
 
           <div>
-            <label className="block text-sm font-medium text-white">Year</label>
+            <label className="block text-sm font-medium text-black md:text-white">Year</label>
             <input
               type="number"
               name="year"
               value={formData.year}
               onChange={handleChange}
-              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-white"
+              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500  text-black md:text-white placeholder-black md:placeholder-white"
               placeholder="Enter year"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white">Upload Image</label>
+            <label className="block text-sm font-medium text-black md:text-white">Upload Image</label>
             <input
               type="file"
               name="image"
               onChange={handleChange}
-              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-white placeholder-white"
+              className="mt-1 block w-full p-3 bg-transparent border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500  text-black md:text-white placeholder-black md:placeholder-white"
               accept="image/*"
               required
             />
