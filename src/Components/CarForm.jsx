@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getBlockNumber } from 'wagmi/actions';
 
 const CarForm = () => {
   const { transactionId } = useParams();
@@ -112,7 +113,7 @@ const CarForm = () => {
       const year = Number(formData.year);
       const model = formData.model.trim();
       const price = ethers.utils.parseUnits(formData.price, 'ether');
-      const image = formData.image;
+      const image = tokenURI;
 
       if (!title || isNaN(year) || !model || !price || !image) {
         throw new Error('Invalid input values');
