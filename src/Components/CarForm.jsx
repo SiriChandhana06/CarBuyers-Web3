@@ -61,7 +61,8 @@ const CarForm = () => {
       formDataToUpload.append('file', formData.image);
 
       // Pinata API credentials (Use your own API key and secret)
-      const jwt = import.meta.env.jwt_key
+      const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIyMjczNWZmOS04OTQ5LTRmMjQtYjhlZi01NjNiYTdhNWMwNWMiLCJlbWFpbCI6InNpcmlzaXJpMzAwNkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwicGluX3BvbGljeSI6eyJyZWdpb25zIjpbeyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJGUkExIn0seyJkZXNpcmVkUmVwbGljYXRpb25Db3VudCI6MSwiaWQiOiJOWUMxIn1dLCJ2ZXJzaW9uIjoxfSwibWZhX2VuYWJsZWQiOmZhbHNlLCJzdGF0dXMiOiJBQ1RJVkUifSwiYXV0aGVudGljYXRpb25UeXBlIjoic2NvcGVkS2V5Iiwic2NvcGVkS2V5S2V5IjoiYTQ1YTBlMmEwODE4NmZmZTg4NTQiLCJzY29wZWRLZXlTZWNyZXQiOiIxOTQ4ODgwM2M4MjY3YjhmY2Q0ZWU2YmVjMmJiMjJiMWY5YTJmNTU4YzQ2MzVmODhkYjk0MDhlYTE2NzA5YjljIiwiZXhwIjoxNzU2MTg5ODA2fQ.VO4iwUm49W6fsn-DC4dG42BlGro5hrgc3Ohh3Kr7i7M'
+
       // Upload the image to Pinata
 
       const imageUploadResponse = await axios.post(
@@ -110,7 +111,7 @@ const CarForm = () => {
       const title = formData.title.trim();
       const year = Number(formData.year);
       const model = formData.model.trim();
-      const price = ethers.utils.parseUnits(formData.price, 'ether');  
+      const price = ethers.utils.parseUnits(formData.price, 'ether');
       const image = formData.image;
 
       if (!title || isNaN(year) || !model || !price || !image) {
@@ -124,16 +125,18 @@ const CarForm = () => {
       });
       await setItemDetails(contract, title, year, model, price, image);
       console.log('Details submitted successfully.');
+      setFormData({
+        title: '',
+        price: '',
+        model: '',
+        year: '',
+        image: '',
+      });
+      toast.success('Details submitted successfully.');
     } catch (error) {
       console.error('Error submitting details:', error);
+      toast.error('Failed to submit details.');
     }
-    
-    setFormData({
-      title: '',
-      price: '',
-      model: '',
-      year: '',
-    });
   };
 
   return (
