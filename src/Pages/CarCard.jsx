@@ -30,11 +30,13 @@ const CarCard = () => {
     initialize();
   }, []);
 
+
   useEffect(() => {
     if (contract) {
       fetchItems();
     }
   }, [contract]);
+
 
   const fetchItems = async () => {
     try {
@@ -47,6 +49,7 @@ const CarCard = () => {
       console.error('Error getting all items data:', error);
     }
   };
+
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -70,6 +73,8 @@ const CarCard = () => {
     }
   };
 
+
+  
   if (!data.length) return (
     <div className='backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg '>
       Loading...
