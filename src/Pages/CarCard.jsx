@@ -10,6 +10,10 @@ const CarCard = () => {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [activeTab, setActiveTab] = useState('allPosts');
+
+
+
 
   useEffect(() => {
     async function initialize() {
@@ -72,6 +76,7 @@ const CarCard = () => {
     </div>
   );
 
+
   return (
     <div>
       <div className="mb-6 flex justify-center overflow-x-hidden">
@@ -97,53 +102,72 @@ const CarCard = () => {
         </div>
       </div>
       <div>
-        <div className='flex justify-center py-5'>
-          <div>
-            <button className='backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-l-xl shadow-lg text-2xl hover:text-gray-200 md:hover:text-gray-500 hover:scale-90 hover:rounded-xl'>All Posts</button>
+        <div>
+          <div className='flex justify-center py-5'>
+            <div>
+              <button
+                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-l-xl shadow-lg text-2xl ${activeTab === 'allPosts' ? 'bg-clip-text' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
+                onClick={() => setActiveTab('allPosts')}
+              >
+                All Posts
+              </button>
+            </div>
+            <div>
+              <button
+                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl ${activeTab === 'myPosts' ? ' bg-clip-text' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
+                onClick={() => setActiveTab('myPosts')}
+              >
+                My Post
+              </button>
+            </div>
           </div>
+
           <div>
-            <button className='backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl hover:text-gray-200 md:hover:text-gray-500 hover:scale-90 hover:rounded-xl'>My Post</button>
+            {activeTab === 'allPosts' && <div>
+              {filteredData.length === 0 ? (
+                <div className="text-center text-gray-500">No results found</div>
+              ) : (
+                <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px] " id='hide-scrollbar'>
+                  {filteredData.map((item, index) => {
+                    const priceInEther = ethers.utils.formatEther(item.price);
+                    const year = item.year ? item.year.toNumber() : item[1].toNumber();
+                    return (
+                      <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
+                        <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
+                        <div className="mb-4">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="w-full h-48 object-cover rounded-md mb-4"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <div className='font-semibold'>
+                            <span className="font-medium text-white/70 md:text-gray-600">Company:</span> {item.title}
+                          </div>
+                          <div className='font-semibold'>
+                            <span className="font-medium text-white/70 md:text-gray-600">Model:</span> {item.model}
+                          </div>
+                          <div className='font-semibold'>
+                            <span className="font-medium text-white/70 md:text-gray-600">Year:</span> {year}
+                          </div>
+                          <div className='font-semibold'>
+                            <span className="font-medium text-white/70 md:text-gray-600">Price:</span> {priceInEther} ETH
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>}
+            {activeTab === 'myPosts' && <div> There is No Content on My Post</div>}
           </div>
         </div>
       </div>
 
 
-      {filteredData.length === 0 ? (
-        <div className="text-center text-gray-500">No results found</div>
-      ) : (
-        <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px] " id='hide-scrollbar'>
-          {filteredData.map((item, index) => {
-            const priceInEther = ethers.utils.formatEther(item.price);
-            const year = item.year ? item.year.toNumber() : item[1].toNumber();
-            return (
-              <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
-                <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
-                <div className="mb-4">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-48 object-cover rounded-md mb-4"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className='font-semibold'>
-                    <span className="font-medium text-white/70 md:text-gray-600">Company:</span> {item.title}
-                  </div>
-                  <div className='font-semibold'>
-                    <span className="font-medium text-white/70 md:text-gray-600">Model:</span> {item.model}
-                  </div>
-                  <div className='font-semibold'>
-                    <span className="font-medium text-white/70 md:text-gray-600">Year:</span> {year}
-                  </div>
-                  <div className='font-semibold'>
-                    <span className="font-medium text-white/70 md:text-gray-600">Price:</span> {priceInEther} ETH
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+
     </div>
   );
 };
