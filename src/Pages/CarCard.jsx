@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { initializeContract, getAllItems } from '../Integration';
+import { initializeContract, getAllItems, getMyPosts } from '../Integration';
 import { ethers } from 'ethers';
 
 const CarCard = () => {
@@ -8,12 +8,10 @@ const CarCard = () => {
   const [address, setAddress] = useState(null);
   const [contract, setContract] = useState(null);
   const [data, setData] = useState([]);
+  const [myData, setMyData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [activeTab, setActiveTab] = useState('allPosts');
-
-
-
 
   useEffect(() => {
     async function initialize() {
@@ -30,13 +28,12 @@ const CarCard = () => {
     initialize();
   }, []);
 
-
   useEffect(() => {
     if (contract) {
       fetchItems();
+      fetchMyPosts(); // Fetch posts by the connected wallet
     }
   }, [contract]);
-
 
   const fetchItems = async () => {
     try {
@@ -44,12 +41,20 @@ const CarCard = () => {
       setData(records);
       setFilteredData(records); // Initially, set filtered data to all items
       console.log('All Items Data:', records);
-      const fileurl = 'https://gateway.pinata.cloud/ipfs/';
     } catch (error) {
       console.error('Error getting all items data:', error);
     }
   };
 
+  const fetchMyPosts = async () => {
+    try {
+      const records = await getMyPosts(contract);
+      setMyData(records);
+      console.log('My Posts Data:', records);
+    } catch (error) {
+      console.error('Error getting my posts data:', error);
+    }
+  };
 
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
@@ -72,15 +77,6 @@ const CarCard = () => {
       setFilteredData(filtered);
     }
   };
-
-
-  
-  if (!data.length) return (
-    <div className='backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg '>
-      Loading...
-    </div>
-  );
-
 
   return (
     <div>
@@ -111,7 +107,7 @@ const CarCard = () => {
           <div className='flex justify-center py-5'>
             <div>
               <button
-                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-l-xl shadow-lg text-2xl ${activeTab === 'allPosts' ? 'bg-clip-text' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
+                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-l-xl shadow-lg text-2xl ${activeTab === 'allPosts' ? 'bg-clip-text text-white md:text-black' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
                 onClick={() => setActiveTab('allPosts')}
               >
                 All Posts
@@ -119,7 +115,7 @@ const CarCard = () => {
             </div>
             <div>
               <button
-                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl ${activeTab === 'myPosts' ? ' bg-clip-text' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
+                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl ${activeTab === 'myPosts' ? ' bg-clip-text text-white md:text-black' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
                 onClick={() => setActiveTab('myPosts')}
               >
                 My Post
@@ -128,51 +124,90 @@ const CarCard = () => {
           </div>
 
           <div>
-            {activeTab === 'allPosts' && <div>
-              {filteredData.length === 0 ? (
-                <div className="text-center text-gray-500">No results found</div>
-              ) : (
-                <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px] " id='hide-scrollbar'>
-                  {filteredData.map((item, index) => {
-                    const priceInEther = ethers.utils.formatEther(item.price);
-                    const year = item.year ? item.year.toNumber() : item[1].toNumber();
-                    return (
-                      <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
-                        <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
-                        <div className="mb-4">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="w-full h-48 object-cover rounded-md mb-4"
-                          />
+            {activeTab === 'allPosts' && (
+              <div>
+                {filteredData.length === 0 ? (
+                  <div className="text-center text-gray-500">No results found</div>
+                ) : (
+                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px]" id='hide-scrollbar'>
+                    {filteredData.map((item, index) => {
+                      const priceInEther = ethers.utils.formatEther(item.price);
+                      const year = item.year ? item.year.toNumber() : item[1].toNumber();
+                      return (
+                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
+                          <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
+                          <div className="mb-4">
+                            <img
+                              src={item.image}
+                              alt={item.title}
+                              className="w-full h-48 object-cover rounded-md mb-4"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Company:</span> {item.title}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Model:</span> {item.model}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Year:</span> {year}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Price:</span> {priceInEther} ETH
+                            </div>
+                          </div>
                         </div>
-                        <div className="space-y-2">
-                          <div className='font-semibold'>
-                            <span className="font-medium text-white/70 md:text-gray-600">Company:</span> {item.title}
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'myPosts' && (
+              <div>
+                {myData.length === 0 ? (
+                  <div className="text-center text-gray-500">There are no posts by you</div>
+                ) : (
+                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px]" id='hide-scrollbar'>
+                    {myData.map((item, index) => {
+                      const priceInEther = ethers.utils.formatEther(item.price);
+                      const year = item.year ? item.year.toNumber() : item[1].toNumber();
+                      return (
+                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
+                          <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
+                          <div className="mb-4">
+                            <img
+                              src={item.image}
+                              alt={item.title}
+                              className="w-full h-48 object-cover rounded-md mb-4"
+                            />
                           </div>
-                          <div className='font-semibold'>
-                            <span className="font-medium text-white/70 md:text-gray-600">Model:</span> {item.model}
-                          </div>
-                          <div className='font-semibold'>
-                            <span className="font-medium text-white/70 md:text-gray-600">Year:</span> {year}
-                          </div>
-                          <div className='font-semibold'>
-                            <span className="font-medium text-white/70 md:text-gray-600">Price:</span> {priceInEther} ETH
+                          <div className="space-y-2">
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Company:</span> {item.title}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Model:</span> {item.model}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Year:</span> {year}
+                            </div>
+                            <div className='font-semibold'>
+                              <span className="font-medium text-white/70 md:text-gray-700">Price:</span> {priceInEther} ETH
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>}
-            {activeTab === 'myPosts' && <div> There is No Content on My Post</div>}
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };
