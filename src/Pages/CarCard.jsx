@@ -115,7 +115,7 @@ const CarCard = () => {
             </div>
             <div>
               <button
-                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl ${activeTab === 'myPosts' ? ' bg-clip-text text-white md:text-black' : 'hover:text-gray-500'} hover:scale-90 hover:rounded-xl`}
+                className={`backdrop-blur-md bg-white/30 py-6 px-6 md:px-20 border border-white/30 rounded-r-xl shadow-lg text-2xl ${activeTab === 'myPosts' ? ' bg-clip-text text-white ' : 'hover:text-gray-300'} hover:scale-90 hover:rounded-xl`}
                 onClick={() => setActiveTab('myPosts')}
               >
                 My Post
@@ -127,34 +127,34 @@ const CarCard = () => {
             {activeTab === 'allPosts' && (
               <div>
                 {filteredData.length === 0 ? (
-                  <div className="text-center text-gray-500">No results found</div>
+                  <div className="text-left text-cyan-500 font-bold">No results found</div>
                 ) : (
-                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px]" id='hide-scrollbar'>
+                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[800px]" id='hide-scrollbar'>
                     {filteredData.map((item, index) => {
                       const priceInEther = ethers.utils.formatEther(item.price);
                       const year = item.year ? item.year.toNumber() : item[1].toNumber();
                       return (
-                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
+                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] md:min-w-[350px] mx-auto">
                           <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
                           <div className="mb-4">
                             <img
                               src={item.image}
                               alt={item.title}
-                              className="w-full h-48 object-cover rounded-md mb-4"
+                              className="w-full h-48 object-fill rounded-md mb-4"
                             />
                           </div>
                           <div className="space-y-2">
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Company:</span> {item.title}
+                              <span className="font-medium text-white/70 ">Company:</span> {item.title}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Model:</span> {item.model}
+                              <span className="font-medium text-white/70 ">Model:</span> {item.model}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Year:</span> {year}
+                              <span className="font-medium text-white/70 ">Year:</span> {year}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Price:</span> {priceInEther} ETH
+                              <span className="font-medium text-white/70">Price:</span> {priceInEther} ETH
                             </div>
                           </div>
                         </div>
@@ -168,34 +168,34 @@ const CarCard = () => {
             {activeTab === 'myPosts' && (
               <div>
                 {myData.length === 0 ? (
-                  <div className="text-center text-gray-500">There are no posts by you</div>
+                  <div className="text-left text-cyan-500 font-bold">There are no posts by you</div>
                 ) : (
-                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[700px]" id='hide-scrollbar'>
+                  <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[800px]" id='hide-scrollbar'>
                     {myData.map((item, index) => {
                       const priceInEther = ethers.utils.formatEther(item.price);
                       const year = item.year ? item.year.toNumber() : item[1].toNumber();
                       return (
-                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] mx-auto">
+                        <div key={index} className="backdrop-blur-md bg-white/30 p-6 border border-white/30 rounded-lg shadow-lg min-w-[300px] md:min-w-[350px] mx-auto">
                           <h2 className="text-xl font-semibold mb-4 text-black">Car Details</h2>
                           <div className="mb-4">
                             <img
                               src={item.image}
                               alt={item.title}
-                              className="w-full h-48 object-cover rounded-md mb-4"
+                              className="w-full h-48 object-fill rounded-md mb-4"
                             />
                           </div>
                           <div className="space-y-2">
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Company:</span> {item.title}
+                              <span className="font-medium text-white/70 ">Company:</span> {item.title}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Model:</span> {item.model}
+                              <span className="font-medium text-white/70 ">Model:</span> {item.model}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Year:</span> {year}
+                              <span className="font-medium text-white/70 ">Year:</span> {year}
                             </div>
                             <div className='font-semibold'>
-                              <span className="font-medium text-white/70 md:text-gray-700">Price:</span> {priceInEther} ETH
+                              <span className="font-medium text-white/70 ">Price:</span> {priceInEther} ETH
                             </div>
                           </div>
                         </div>
