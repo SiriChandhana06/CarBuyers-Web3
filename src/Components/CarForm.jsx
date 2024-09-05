@@ -134,6 +134,9 @@ const CarForm = () => {
         image: '',
       });
       toast.success('Details submitted successfully.');
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error('Error submitting details:', error);
       toast.error('Failed to submit details.');

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useEffect } from 'react';
 import '@rainbow-me/rainbowkit/styles.css';
 import {ConnectButton,getDefaultConfig,RainbowKitProvider,} from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
@@ -25,6 +26,12 @@ const queryClient = new QueryClient();
 
 
 const Button = () => {
+  
+  // useEffect(()=>{
+  //   setTimeout(() => {
+  //     window.location.reload();
+  //   }, 2000);
+  // })
   return (
     <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>

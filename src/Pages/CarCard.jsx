@@ -127,7 +127,7 @@ const CarCard = () => {
             {activeTab === 'allPosts' && (
               <div>
                 {filteredData.length === 0 ? (
-                  <div className="text-left text-cyan-500 font-bold">No results found</div>
+                  <div className="text-left text-2xl text-cyan-500 font-bold w-[330px] md:w-[800px]">No results found</div>
                 ) : (
                   <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[800px]" id='hide-scrollbar'>
                     {filteredData.map((item, index) => {
@@ -168,7 +168,7 @@ const CarCard = () => {
             {activeTab === 'myPosts' && (
               <div>
                 {myData.length === 0 ? (
-                  <div className="text-left text-cyan-500 font-bold">There are no posts by you</div>
+                  <div className="text-left text-2xl text-cyan-500 font-bold w-[330px] md:w-[800px]">There are no posts by you</div>
                 ) : (
                   <div className="flex gap-6 overflow-x-scroll w-[330px] md:w-[800px]" id='hide-scrollbar'>
                     {myData.map((item, index) => {
