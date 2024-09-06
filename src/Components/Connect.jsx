@@ -1,5 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
 import '@rainbow-me/rainbowkit/styles.css';
 import {ConnectButton,getDefaultConfig,RainbowKitProvider,} from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
