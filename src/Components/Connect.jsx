@@ -27,11 +27,6 @@ const queryClient = new QueryClient();
 
 const Button = () => {
   
-  // useEffect(()=>{
-  //   setTimeout(() => {
-  //     window.location.reload();
-  //   }, 2000);
-  // })
   return (
     <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
